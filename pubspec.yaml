@@ -1,0 +1,26 @@
+name: festa_com_alegria
+description: "Festa com Alegria é um aplicativo pessoal para minha noiva onde ela poderá cadastrar pedidos de kit de festa de aniversário"
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #UI
+  google_fonts: ^6.3.3
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
