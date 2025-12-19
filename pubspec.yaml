@@ -13,6 +13,10 @@ dependencies:
 
   #UI
   google_fonts: ^6.3.3
+  flutter_animate: ^4.5.2
+
+  #CONFIGURAÇÕES
+  go_router: ^17.0.1
 
   cupertino_icons: ^1.0.8
 
@@ -24,3 +28,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
