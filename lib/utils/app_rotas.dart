@@ -1,3 +1,5 @@
+import 'package:festa_com_alegria/src/inicio/telas/inicio_tela.dart';
+import 'package:festa_com_alegria/src/inicio/telas/materiais_tela.dart';
 import 'package:festa_com_alegria/src/introducao/telas/introducao_tela.dart';
 import 'package:festa_com_alegria/src/introducao/telas/splash_tela.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,27 @@ final GoRouter appRouter = GoRouter(
           transitionDuration: const Duration(milliseconds: 800),
           reverseTransitionDuration: const Duration(milliseconds: 800),
         );
+      },
+    ),
+    GoRoute(
+      path: '/inicio',
+      name: 'inicio',
+      builder: (BuildContext context, GoRouterState state) {
+        return const InicioTela();
+      },
+    ),
+    GoRoute(
+      path: '/materiais',
+      name: 'materiais',
+      builder: (BuildContext context, GoRouterState state) {
+        return const MateriaisTela();
+      },
+    ),
+    GoRoute(
+      path: '/imprevistos',
+      name: 'imprevistos',
+      builder: (BuildContext context, GoRouterState state) {
+        return const MateriaisTela();
       },
     ),
   ],

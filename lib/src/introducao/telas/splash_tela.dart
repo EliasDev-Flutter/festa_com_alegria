@@ -30,7 +30,11 @@ class _SplashTelaState extends State<SplashTela> {
           children: [
             Expanded(
               flex: 2,
-              child: Image.asset(AppImagens.logo).animate().fadeIn(duration: 1000.ms),
+              child: Image.asset(
+                AppImagens.logo,
+                height: 200,
+                width: 200,
+              ).animate().fadeIn(duration: 1000.ms),
             ),
             Expanded(flex: 1, child: SizedBox()),
           ],

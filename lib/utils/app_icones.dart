@@ -1,0 +1,33 @@
+abstract class AppIcones {
+  static const String notificacoes = 'assets/icons/notificacoes.svg';
+  static const String menu = 'assets/icons/menu.svg';
+  static const String adicionarImagem = 'assets/icons/adicionar-imagem.svg';
+  static const String adicionar = 'assets/icons/adicionar.svg';
+  static const String agendaBranco = 'assets/icons/agenda-branco.svg';
+  static const String agendaPreto = 'assets/icons/agenda-preto.svg';
+  static const String ajustes = 'assets/icons/ajustes.svg';
+  static const String cancelar = 'assets/icons/cancelar.svg';
+  static const String carteiraBranco = 'assets/icons/carteira-branco.svg';
+  static const String editar = 'assets/icons/editar.svg';
+  static const String favoritos = 'assets/icons/favoritos.svg';
+  static const String inicioBranco = 'assets/icons/inicio-branco.svg';
+  static const String inicioPreto = 'assets/icons/inicio-preto.svg';
+  static const String introducao = 'assets/icons/introducao.svg';
+  static const String materiais = 'assets/icons/materiais.svg';
+  static const String imprevistos = 'assets/icons/imprevistos.svg';
+  static const String apagar = 'assets/icons/apagar.svg';
+  static const String carteiraPreto = 'assets/icons/carteira-preto.svg';
+  static const String enviar = 'assets/icons/enviar.svg';
+  static const String naoVisivel = 'assets/icons/nao-visivel.svg';
+  static const String novoPedido = 'assets/icons/novo-pedido.svg';
+  static const String pedidosBranco = 'assets/icons/pedidos-branco.svg';
+  static const String pedidosPreto = 'assets/icons/pedidos-preto.svg';
+  static const String pendente = 'assets/icons/pendente.svg';
+  static const String salvar = 'assets/icons/salvar.svg';
+  static const String sons = 'assets/icons/sons.svg';
+  static const String visivel = 'assets/icons/visivel.svg';
+  static const String voltar = 'assets/icons/voltar.svg';
+  static const String aberto = 'assets/icons/aberto.svg';
+  static const String fechado = 'assets/icons/fechado.svg';
+  static const String limpar = 'assets/icons/limpar.svg';
+}

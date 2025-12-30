@@ -1,5 +1,6 @@
 import 'package:festa_com_alegria/utils/app_rotas.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FestaComAlegria extends StatelessWidget {
   const FestaComAlegria({super.key});
@@ -11,6 +12,8 @@ class FestaComAlegria extends StatelessWidget {
       debugShowCheckedModeBanner: true,
 
       theme: ThemeData(
+        textTheme: GoogleFonts.abhayaLibreTextTheme(),
+        appBarTheme: AppBarTheme(titleTextStyle: GoogleFonts.abhayaLibreTextTheme().titleLarge),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

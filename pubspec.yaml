@@ -17,6 +17,7 @@ dependencies:
 
   #CONFIGURAÇÕES
   go_router: ^17.0.1
+  flutter_svg: ^2.2.3
 
   cupertino_icons: ^1.0.8
 
