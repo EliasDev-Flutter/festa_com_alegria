@@ -11,13 +11,13 @@ class CorpoMateriaisWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: PhysicalShape(
-        clipper: _PontasBaixoClipper(radius: 20, notchDepth: 70, triangles: 4, sidePadding: 0),
+        clipper: _PontasBaixoClipper(radius: 20, notchDepth: 60, triangles: 4, sidePadding: 0),
         color: AppCores.violetaClaroPairado,
-        elevation: 10,
+        elevation: 5,
         shadowColor: AppCores.cinza,
         child: SizedBox(
-          height: 600,
-          width: .infinity,
+          width: double.infinity,
+          height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(crossAxisAlignment: .start, children: corpo),

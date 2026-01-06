@@ -58,4 +58,7 @@ abstract class AppCores {
   static const Color transparente = Color(0x00000000);
   static const Color branco = Color(0xFFFFFFFF);
   static const Color preto = Color(0xFF000000);
+
+  //Azul
+  static const Color azul = Color(0xFF0077E0);
 }

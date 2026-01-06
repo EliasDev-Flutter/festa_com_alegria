@@ -2,6 +2,7 @@ import 'package:festa_com_alegria/utils/app_cores.dart';
 import 'package:festa_com_alegria/utils/app_icones.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class TopoInicio extends StatelessWidget implements PreferredSizeWidget {
   const TopoInicio({super.key});
@@ -26,7 +27,9 @@ class TopoInicio extends StatelessWidget implements PreferredSizeWidget {
           child: Builder(
             builder: (context) {
               return IconButton(
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
                 icon: Icon(Icons.menu, size: 45),
               );
             },
@@ -43,7 +46,10 @@ class TopoInicio extends StatelessWidget implements PreferredSizeWidget {
           Badge(
             smallSize: 12,
             backgroundColor: AppCores.vermelho,
-            child: SvgPicture.asset(AppIcones.notificacoes, width: 40, height: 40),
+            child: GestureDetector(
+              onTap: () => context.goNamed('notificacoes'),
+              child: SvgPicture.asset(AppIcones.notificacoes, width: 40, height: 40),
+            ),
           ),
         ],
       ),

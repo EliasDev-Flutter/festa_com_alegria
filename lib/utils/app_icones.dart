@@ -30,4 +30,7 @@ abstract class AppIcones {
   static const String aberto = 'assets/icons/aberto.svg';
   static const String fechado = 'assets/icons/fechado.svg';
   static const String limpar = 'assets/icons/limpar.svg';
+  static const String pesquisar = 'assets/icons/pesquisar.svg';
+  static const String instagram = 'assets/icons/instagram.svg';
+  static const String galeria = 'assets/icons/galeria.svg';
 }

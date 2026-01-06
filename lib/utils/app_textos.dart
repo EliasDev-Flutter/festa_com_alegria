@@ -1,5 +1,9 @@
 abstract class AppTextos {
+  static const String efeitoSonoro = 'Efeito sonoro';
+  static const String introducao = 'Introdução';
   static const String adicionar = 'Adicionar';
+  static const String horaPadrao = 'Hora padrão dos avisos';
+  static const String adicionarItem = 'Adicionar item';
   static const String proximo = 'Próximo';
   static const String favoritos = 'Favoritos';
   static const String materiais = 'Materiais';
@@ -8,10 +12,21 @@ abstract class AppTextos {
   static const String irParaInicio = 'Ir para Início';
   static const String semItens = 'Sem itens';
   static const String novoItem = 'Novo item';
+  static const String pesquisarPedidos = 'Pesquisar pedidos';
   static const String item = 'Item';
+  static const String quantidade = 'Quantidade';
+  static const String valor = 'Valor';
+  static const String moedaValor = 'R\$';
   static const String novoImprevisto = 'Novo imprevisto';
+  static const String removerItens = 'Remover itens';
+  static const String limpar = 'Limpar';
   static const String total = 'Total:';
+  static const String festaComAlegria = 'Festa com Alegria';
   static const String ondeCadaMomento = 'Onde cada momento vira lembrança feliz.';
   static const String celebrandoSorrisos = 'Celebrando sorrisos, espalhando alegria.';
   static const String festaDoJeitinho = 'A festa, do jeitinho que a criança merece.';
+  static const String ajustes = 'Ajustes';
+  static const String galeria = 'Galeria';
+  static const String notificacoes = 'Notificações';
+  static const String instagram = 'Instagram';
 }

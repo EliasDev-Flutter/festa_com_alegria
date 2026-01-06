@@ -11,12 +11,14 @@ class TopoBase extends StatelessWidget implements PreferredSizeWidget {
     this.aoPressionar,
     this.temBotao = false,
     this.iconeBotao = AppIcones.apagar,
+    this.widgetAcao,
   });
 
   final String titulo;
   final VoidCallback? aoPressionar;
   final bool? temBotao;
   final String iconeBotao;
+  final Widget? widgetAcao;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,18 @@ class TopoBase extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(titulo, style: TextStyle(fontSize: AppTipografias.h3)),
       actions: [
-        if (temBotao ?? true)
-          IconButton(onPressed: aoPressionar, icon: SvgPicture.asset(iconeBotao)),
+        if (widgetAcao != null)
+          Center(
+            child: Padding(padding: const EdgeInsets.only(right: 10), child: widgetAcao),
+          )
+        else if (temBotao ?? true)
+          GestureDetector(
+            onTap: aoPressionar,
+            child: Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: SvgPicture.asset(iconeBotao, width: 30),
+            ),
+          ),
       ],
     );
   }

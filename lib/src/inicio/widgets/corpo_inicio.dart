@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:festa_com_alegria/src/inicio/widgets/corpo_menu.dart';
 import 'package:festa_com_alegria/utils/app_cores.dart';
 import 'package:festa_com_alegria/utils/app_icones.dart';
 import 'package:festa_com_alegria/utils/app_imagens.dart';
@@ -86,7 +87,7 @@ class _CorpoInicioState extends State<CorpoInicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: CorpoMenu(),
       appBar: TopoInicio(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -143,9 +144,12 @@ class _CorpoInicioState extends State<CorpoInicio> {
                               ),
                             ],
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(_favoritos[imageIndex], fit: BoxFit.cover),
+                          child: GestureDetector(
+                            onTap: () => context.goNamed('galeria'),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(_favoritos[imageIndex], fit: BoxFit.cover),
+                            ),
                           ),
                         ),
                       ),
@@ -204,13 +208,13 @@ class _CorpoInicioState extends State<CorpoInicio> {
                     ),
                     SizedBox(height: 12),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Column(
                         crossAxisAlignment: .start,
                         children: [
                           Text(AppTextos.total, style: TextStyle(fontSize: AppTipografias.h6)),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
                             child: Row(
                               children: [
                                 Text(
@@ -220,7 +224,8 @@ class _CorpoInicioState extends State<CorpoInicio> {
                                 SizedBox(
                                   width: 180,
                                   child: FittedBox(
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
                                     child: _valorBorrado(
                                       '3.620,00',
                                       TextStyle(fontSize: AppTipografias.valor, height: .9),
@@ -253,7 +258,8 @@ class _CorpoInicioState extends State<CorpoInicio> {
                               SizedBox(
                                 width: 45,
                                 child: FittedBox(
-                                  fit: BoxFit.contain,
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
                                   child: _valorBorrado(
                                     '380,00',
                                     TextStyle(color: AppCores.vermelhoHover),

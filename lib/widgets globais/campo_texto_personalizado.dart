@@ -1,12 +1,26 @@
 import 'package:festa_com_alegria/utils/app_cores.dart';
-import 'package:festa_com_alegria/utils/app_textos.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CampoTextoPersonalizado extends StatefulWidget {
-  const CampoTextoPersonalizado({super.key});
+  const CampoTextoPersonalizado({
+    super.key,
+    this.formatadores,
+    this.exemplo,
+    required this.titulo,
+    this.teclado = TextInputType.text,
+    this.expansivo,
+    this.controller,
+  });
 
   @override
   State<CampoTextoPersonalizado> createState() => _CampoTextoPersonalizadoState();
+  final String titulo;
+  final TextEditingController? controller;
+  final TextInputType teclado;
+  final bool? expansivo;
+  final String? exemplo;
+  final List<TextInputFormatter>? formatadores;
 }
 
 class _CampoTextoPersonalizadoState extends State<CampoTextoPersonalizado> {
@@ -15,10 +29,19 @@ class _CampoTextoPersonalizadoState extends State<CampoTextoPersonalizado> {
     return Column(
       crossAxisAlignment: .start,
       children: [
-        Text(AppTextos.item),
+        Text(widget.titulo),
         SizedBox(height: 2),
         TextFormField(
+          controller: widget.controller,
+          inputFormatters: widget.formatadores,
+          onTapOutside: (event) {
+            FocusScope.of(context).unfocus();
+          },
+          textInputAction: .next,
+          keyboardType: widget.teclado,
+          expands: widget.expansivo ?? false,
           decoration: InputDecoration(
+            hintText: widget.exemplo,
             fillColor: AppCores.violetaClaroPairado,
             filled: true,
             enabledBorder: OutlineInputBorder(
@@ -34,6 +57,12 @@ class _CampoTextoPersonalizadoState extends State<CampoTextoPersonalizado> {
               borderSide: BorderSide(color: AppCores.violeta),
             ),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Campo obrigatório';
+            }
+            return null;
+          },
         ),
       ],
     );
