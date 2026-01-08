@@ -1,4 +1,5 @@
 import 'package:festa_com_alegria/src/inicio/telas/ajustes_tela.dart';
+import 'package:festa_com_alegria/src/inicio/telas/detalhes_imagem_tela.dart';
 import 'package:festa_com_alegria/src/inicio/telas/galeria_tela.dart';
 import 'package:festa_com_alegria/src/inicio/telas/imprevistos_tela.dart';
 import 'package:festa_com_alegria/src/inicio/telas/inicio_tela.dart';
@@ -83,6 +84,17 @@ final GoRouter appRouter = GoRouter(
       name: 'notificacoes',
       builder: (BuildContext context, GoRouterState state) {
         return const NotificacoesTela();
+      },
+    ),
+    GoRoute(
+      path: '/detalhes-imagem',
+      name: 'detalhesImagem',
+      builder: (BuildContext context, GoRouterState state) {
+        final Map<String, dynamic> extra = state.extra as Map<String, dynamic>;
+        return DetalhesImagemTela(
+          caminhoImagem: extra['caminhoImagem'] as String,
+          aoRemover: extra['aoRemover'] as VoidCallback,
+        );
       },
     ),
   ],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:festa_com_alegria/src/inicio/widgets/corpo_menu.dart';
@@ -11,6 +12,7 @@ import 'package:festa_com_alegria/widgets%20globais/topo_inicio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CorpoInicio extends StatefulWidget {
   const CorpoInicio({super.key});
@@ -25,20 +27,37 @@ class _CorpoInicioState extends State<CorpoInicio> {
   Timer? _resumeTimer;
   final int _initialPage = 1000;
   int _paginaAtual = 0;
-  final List<String> _favoritos = [
-    AppImagens.foto0,
-    AppImagens.foto1,
-    AppImagens.foto2,
-    AppImagens.foto3,
-    AppImagens.foto4,
-    AppImagens.foto5,
-  ];
+  List<String> _favoritos = [];
+  bool _carregando = true;
 
   @override
   void initState() {
     super.initState();
+    _carregarFavoritos();
     _pageController = PageController(viewportFraction: 1.0, initialPage: _initialPage);
     _startAutoScroll();
+  }
+
+  Future<void> _carregarFavoritos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favs = prefs.getStringList('favoritos_inicio') ?? [];
+    if (favs.isEmpty) {
+      _favoritos = [
+        AppImagens.foto0,
+        AppImagens.foto1,
+        AppImagens.foto2,
+        AppImagens.foto3,
+        AppImagens.foto4,
+        AppImagens.foto5,
+      ];
+    } else {
+      _favoritos = favs;
+    }
+    if (mounted) {
+      setState(() {
+        _carregando = false;
+      });
+    }
   }
 
   @override
@@ -106,56 +125,64 @@ class _CorpoInicioState extends State<CorpoInicio> {
               },
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * .2,
-                child: PageView.builder(
-                  physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  controller: _pageController,
-                  onPageChanged: (index) =>
-                      setState(() => _paginaAtual = index % _favoritos.length),
-                  itemBuilder: (context, index) {
-                    final int imageIndex = index % _favoritos.length;
-                    return AnimatedBuilder(
-                      animation: _pageController,
-                      builder: (context, child) {
-                        double value = 1.0;
-                        if (_pageController.position.haveDimensions) {
-                          value = _pageController.page! - index;
-                          value = (1 - (value.abs() * 0.25)).clamp(0.75, 1.0);
-                        } else {
-                          value = index == _initialPage ? 1.0 : 0.75;
-                        }
-                        final size = MediaQuery.of(context).size;
-                        final double heightBase = size.height * .2;
-                        final double height = Curves.easeOut.transform(value) * heightBase;
-                        return SizedBox(height: height, width: double.infinity, child: child);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppCores.cinzaBlecaute.withValues(alpha: .10),
-                                offset: const Offset(0, 4),
-                                spreadRadius: 1,
-                                blurRadius: 1,
+                child: _carregando
+                    ? const Center(child: CircularProgressIndicator())
+                    : PageView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        controller: _pageController,
+                        onPageChanged: (index) =>
+                            setState(() => _paginaAtual = index % _favoritos.length),
+                        itemBuilder: (context, index) {
+                          if (_favoritos.isEmpty) return const SizedBox();
+                          final int imageIndex = index % _favoritos.length;
+                          return AnimatedBuilder(
+                            animation: _pageController,
+                            builder: (context, child) {
+                              double value = 1.0;
+                              if (_pageController.position.haveDimensions) {
+                                value = _pageController.page! - index;
+                                value = (1 - (value.abs() * 0.25)).clamp(0.75, 1.0);
+                              } else {
+                                value = index == _initialPage ? 1.0 : 0.75;
+                              }
+                              final size = MediaQuery.of(context).size;
+                              final double heightBase = size.height * .2;
+                              final double height = Curves.easeOut.transform(value) * heightBase;
+                              return SizedBox(height: height, width: double.infinity, child: child);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 6),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppCores.cinzaBlecaute.withValues(alpha: .10),
+                                      offset: const Offset(0, 4),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                  onTap: () => context.goNamed('galeria'),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: _favoritos[imageIndex].startsWith('assets/')
+                                        ? Image.asset(_favoritos[imageIndex], fit: BoxFit.cover)
+                                        : Image.file(
+                                            File(_favoritos[imageIndex]),
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                          child: GestureDetector(
-                            onTap: () => context.goNamed('galeria'),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(_favoritos[imageIndex], fit: BoxFit.cover),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ),
             ),
             const SizedBox(height: 18),

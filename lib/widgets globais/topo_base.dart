@@ -12,6 +12,7 @@ class TopoBase extends StatelessWidget implements PreferredSizeWidget {
     this.temBotao = false,
     this.iconeBotao = AppIcones.apagar,
     this.widgetAcao,
+    this.tamanhoBotao,
   });
 
   final String titulo;
@@ -19,6 +20,7 @@ class TopoBase extends StatelessWidget implements PreferredSizeWidget {
   final bool? temBotao;
   final String iconeBotao;
   final Widget? widgetAcao;
+  final double? tamanhoBotao;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class TopoBase extends StatelessWidget implements PreferredSizeWidget {
             onTap: aoPressionar,
             child: Padding(
               padding: EdgeInsets.only(right: 20),
-              child: SvgPicture.asset(iconeBotao, width: 30),
+              child: SvgPicture.asset(iconeBotao, width: tamanhoBotao ?? 30),
             ),
           ),
       ],

@@ -1,4 +1,5 @@
 abstract class AppTextos {
+  static const String semImagens = 'Sem imagens ainda!';
   static const String efeitoSonoro = 'Efeito sonoro';
   static const String introducao = 'Introdução';
   static const String adicionar = 'Adicionar';
@@ -29,4 +30,5 @@ abstract class AppTextos {
   static const String galeria = 'Galeria';
   static const String notificacoes = 'Notificações';
   static const String instagram = 'Instagram';
+  static const String selecionarFavoritos = 'Selecionar favoritos';
 }

@@ -8,4 +8,5 @@ abstract class AppImagens {
   static const String foto5 = 'assets/images/foto5.jpeg';
   static const String semItens = 'assets/images/sem_itens.png';
   static const String semImprevistos = 'assets/images/sem_imprevistos.png';
+  static const String semImagens = 'assets/images/sem_imagens.png';
 }

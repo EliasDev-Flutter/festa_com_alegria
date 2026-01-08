@@ -1,8 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:festa_com_alegria/utils/app_cores.dart';
 import 'package:festa_com_alegria/utils/app_icones.dart';
+import 'package:festa_com_alegria/utils/app_sons.dart';
 import 'package:festa_com_alegria/utils/app_textos.dart';
 import 'package:festa_com_alegria/utils/app_tipografias.dart';
 import 'package:festa_com_alegria/widgets%20globais/topo_base.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,29 +45,39 @@ class _AjustesTelaState extends State<AjustesTela> {
       body: Column(
         children: [
           SizedBox(height: 40),
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          CupertinoListTile(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             leading: SvgPicture.asset(AppIcones.sons, width: 40),
             title: Text(AppTextos.efeitoSonoro, style: TextStyle(fontSize: AppTipografias.h4)),
-            trailing: Switch.adaptive(
+            trailing: CupertinoSwitch(
               value: efeitoSonoro,
               onChanged: (value) async {
                 final prefs = await SharedPreferences.getInstance();
-                await prefs.setBool('efeitoSonoro', value);
-                setState(() {
-                  efeitoSonoro = value;
-                });
+                if (value) {
+                  await prefs.setBool('efeitoSonoro', true);
+                  setState(() => efeitoSonoro = true);
+                  await AppSons.tocarSalvar();
+                } else {
+                  await AppSons.tocarExcluir();
+                  await prefs.setBool('efeitoSonoro', false);
+                  setState(() => efeitoSonoro = false);
+                }
               },
             ),
           ),
           SizedBox(height: 40),
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          CupertinoListTile(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             leading: SvgPicture.asset(AppIcones.introducao, width: 40),
             title: Text(AppTextos.introducao, style: TextStyle(fontSize: AppTipografias.h4)),
-            trailing: Switch.adaptive(
+            trailing: CupertinoSwitch(
               value: introducao,
               onChanged: (value) async {
+                if (value) {
+                  await AppSons.tocarSalvar();
+                } else {
+                  await AppSons.tocarExcluir();
+                }
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setBool('introducao', value);
                 setState(() {
@@ -73,13 +87,18 @@ class _AjustesTelaState extends State<AjustesTela> {
             ),
           ),
           SizedBox(height: 40),
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          CupertinoListTile(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             leading: SvgPicture.asset(AppIcones.notificacoes, width: 40),
             title: Text(AppTextos.notificacoes, style: TextStyle(fontSize: AppTipografias.h4)),
-            trailing: Switch.adaptive(
+            trailing: CupertinoSwitch(
               value: notificacoes,
               onChanged: (value) async {
+                if (value) {
+                  await AppSons.tocarSalvar();
+                } else {
+                  await AppSons.tocarExcluir();
+                }
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setBool('notificacoes', value);
                 setState(() {
@@ -105,13 +124,63 @@ class _AjustesTelaState extends State<AjustesTela> {
                   final TimeOfDay? time = await showTimePicker(
                     context: context,
                     initialTime: TimeOfDay.now(),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          timePickerTheme: TimePickerThemeData(
+                            backgroundColor: AppCores.branco,
+                            hourMinuteShape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            ),
+                            dayPeriodBorderSide: BorderSide.none,
+                            dayPeriodShape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            ),
+                            dayPeriodColor: WidgetStateColor.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? AppCores.azul.withValues(alpha: 0.2)
+                                  : AppCores.cinzaClaro,
+                            ),
+                            dayPeriodTextColor: WidgetStateColor.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? AppCores.azul
+                                  : AppCores.preto,
+                            ),
+                            hourMinuteColor: WidgetStateColor.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? AppCores.azul.withValues(alpha: 0.1)
+                                  : AppCores.cinzaClaro,
+                            ),
+                            hourMinuteTextColor: WidgetStateColor.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? AppCores.azul
+                                  : AppCores.preto,
+                            ),
+                            dialHandColor: AppCores.azul,
+                            dialBackgroundColor: AppCores.branco,
+                            dialTextColor: WidgetStateColor.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? AppCores.branco
+                                  : AppCores.preto,
+                            ),
+                            entryModeIconColor: AppCores.azul,
+                            confirmButtonStyle: ButtonStyle(
+                              foregroundColor: WidgetStateProperty.all(AppCores.azul),
+                            ),
+                            cancelButtonStyle: ButtonStyle(
+                              foregroundColor: WidgetStateProperty.all(AppCores.azul),
+                            ),
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
                   );
                   if (time != null && context.mounted) {
                     final prefs = await SharedPreferences.getInstance();
                     final String formattedTime =
                         '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
                     await prefs.setString('horaPadrao', formattedTime);
-                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
