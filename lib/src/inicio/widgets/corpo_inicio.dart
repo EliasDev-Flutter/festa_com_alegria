@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:festa_com_alegria/src/inicio/widgets/corpo_menu.dart';
+import 'package:festa_com_alegria/widgets%20globais/corpo_menu.dart';
 import 'package:festa_com_alegria/utils/app_cores.dart';
 import 'package:festa_com_alegria/utils/app_icones.dart';
 import 'package:festa_com_alegria/utils/app_imagens.dart';

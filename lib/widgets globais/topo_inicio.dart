@@ -43,6 +43,7 @@ class TopoInicio extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: 85,
         title: Text('Olá, Lulu!', style: TextStyle(fontSize: 36)),
         actions: [
+          //TODO: Ajustar badge de acordo com notificacao visualizada
           Badge(
             smallSize: 12,
             backgroundColor: AppCores.vermelho,

@@ -14,7 +14,7 @@ class RodapeBotaoRetangular extends StatelessWidget {
       height: 90,
       padding: EdgeInsets.only(bottom: 40),
       color: AppCores.transparente,
-      child: BotaoRetangular(texto: titulo, aoPressionar: funcaoBotao),
+      child: BotaoRetangular(texto: titulo, aoPressionar: funcaoBotao, largura: 320),
     );
   }
 }

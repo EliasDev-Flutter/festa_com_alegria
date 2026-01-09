@@ -11,6 +11,10 @@ class CampoTextoPersonalizado extends StatefulWidget {
     this.teclado = TextInputType.text,
     this.expansivo,
     this.controller,
+    this.aoPressionar,
+    this.somenteLeitura = false,
+    this.linhasMaximas = 1,
+    this.capitalizacao = .none,
   });
 
   @override
@@ -21,6 +25,10 @@ class CampoTextoPersonalizado extends StatefulWidget {
   final bool? expansivo;
   final String? exemplo;
   final List<TextInputFormatter>? formatadores;
+  final VoidCallback? aoPressionar;
+  final bool somenteLeitura;
+  final int linhasMaximas;
+  final TextCapitalization capitalizacao;
 }
 
 class _CampoTextoPersonalizadoState extends State<CampoTextoPersonalizado> {
@@ -32,6 +40,10 @@ class _CampoTextoPersonalizadoState extends State<CampoTextoPersonalizado> {
         Text(widget.titulo),
         SizedBox(height: 2),
         TextFormField(
+          textCapitalization: widget.capitalizacao,
+          maxLines: widget.linhasMaximas,
+          readOnly: widget.somenteLeitura,
+          onTap: widget.aoPressionar,
           controller: widget.controller,
           inputFormatters: widget.formatadores,
           onTapOutside: (event) {
@@ -57,12 +69,6 @@ class _CampoTextoPersonalizadoState extends State<CampoTextoPersonalizado> {
               borderSide: BorderSide(color: AppCores.violeta),
             ),
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Campo obrigatório';
-            }
-            return null;
-          },
         ),
       ],
     );

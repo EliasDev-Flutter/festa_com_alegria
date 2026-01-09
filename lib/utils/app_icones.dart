@@ -35,4 +35,6 @@ abstract class AppIcones {
   static const String instagram = 'assets/icons/instagram.svg';
   static const String galeria = 'assets/icons/galeria.svg';
   static const String limparNotificacoes = 'assets/icons/limpar-notificacoes.svg';
+  static const String criarPedido = 'assets/icons/criar-pedido.svg';
+  static const String filtro = 'assets/icons/filtro.svg';
 }

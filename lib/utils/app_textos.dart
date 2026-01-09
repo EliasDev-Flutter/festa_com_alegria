@@ -1,4 +1,8 @@
 abstract class AppTextos {
+  static const String todos = 'Todos';
+  static const String pendentes = 'Pendentes';
+  static const String finalizado = 'Finalizado';
+  static const String novoPedido = 'Novo pedido';
   static const String semImagens = 'Sem imagens ainda!';
   static const String efeitoSonoro = 'Efeito sonoro';
   static const String introducao = 'Introdução';
@@ -17,6 +21,7 @@ abstract class AppTextos {
   static const String item = 'Item';
   static const String quantidade = 'Quantidade';
   static const String valor = 'Valor';
+  static const String valorTotal = 'Valor total';
   static const String moedaValor = 'R\$';
   static const String novoImprevisto = 'Novo imprevisto';
   static const String removerItens = 'Remover itens';
@@ -31,4 +36,26 @@ abstract class AppTextos {
   static const String notificacoes = 'Notificações';
   static const String instagram = 'Instagram';
   static const String selecionarFavoritos = 'Selecionar favoritos';
+  static const String semNotificacao = 'Sem notificação!';
+  static const String naoPossuiPedidos = 'Ainda não possui pedidos!';
+  static const String filtrandoPor = 'Filtrando por: ';
+  static const String pedidoParte1 = '1/2';
+  static const String pedidoParte2 = '2/2';
+  static const String dataEntrega = 'Data de entrega';
+  static const String nomeCliente = 'Nome da cliente';
+  static const String tema = 'Tema';
+  static const String tipoPedido = 'Tipo de pedido';
+  static const String kitFesta = 'Kit Festa';
+  static const String kitPapelaria = 'Kit Papelaria';
+  static const String formaPagamento = 'Forma de pagamento';
+  static const String cinquentaPorcento = '50%';
+  static const String debito = 'Débito';
+  static const String credito = 'Crédito';
+  static const String pix = 'Pix';
+  static const String descricao = 'Descrição';
+  static const String avancar = 'Avançar';
+  static const String finalizar = 'Finalizar';
+  static const String voltar = 'Voltar';
+  static const String pedidoCadastrado = 'Pedido cadastrado';
+  static const String horaTrabalhar = 'Hora de trabalhar!';
 }

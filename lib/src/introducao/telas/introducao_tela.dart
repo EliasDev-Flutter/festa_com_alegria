@@ -152,7 +152,7 @@ class _IntroducaoTelaState extends State<IntroducaoTela> {
               ),
             ),
             Expanded(flex: 2, child: SizedBox()),
-            BotaoRetangular(texto: _textoBotao, aoPressionar: _proximoPasso),
+            BotaoRetangular(texto: _textoBotao, aoPressionar: _proximoPasso, largura: 320),
             Expanded(flex: 1, child: SizedBox()),
           ],
         ),

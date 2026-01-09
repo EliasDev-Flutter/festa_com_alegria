@@ -1,6 +1,7 @@
 import 'package:festa_com_alegria/utils/app_cores.dart';
 import 'package:festa_com_alegria/utils/app_rotas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FestaComAlegria extends StatelessWidget {
@@ -11,6 +12,14 @@ class FestaComAlegria extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: true,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
       theme: ThemeData(
         drawerTheme: DrawerThemeData(backgroundColor: AppCores.branco),
         bottomAppBarTheme: BottomAppBarThemeData(color: AppCores.branco),

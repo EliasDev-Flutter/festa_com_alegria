@@ -23,7 +23,7 @@ final List<Map<String, dynamic>> _itens = [];
 
 class _ImprevistosTelaState extends State<ImprevistosTela> {
   final scrollController = ScrollController();
-
+//TODO: incluir SharedPreferences nos imprevistos
   final TextEditingController _itemController = TextEditingController();
   final TextEditingController _valorController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -157,106 +157,109 @@ class _ImprevistosTelaState extends State<ImprevistosTela> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: RodapeBotaoRetangular(
-          titulo: AppTextos.adicionar,
-          funcaoBotao: () {
-            _limparControllers();
-            showDialog(
-              context: context,
-              builder: (context) {
-                return Dialog(
-                  constraints: BoxConstraints.expand(width: double.infinity, height: 400),
-                  backgroundColor: AppCores.cinzaClaro,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Form(
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                AppTextos.novoImprevisto,
-                                style: TextStyle(fontSize: AppTipografias.h4),
-                              ),
-                              Spacer(),
-                              IconButton(
-                                icon: SvgPicture.asset(AppIcones.cancelar, width: 40),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CampoTextoPersonalizado(
-                                    titulo: AppTextos.item,
-                                    controller: _itemController,
-                                  ),
-                                  SizedBox(height: 20),
-                                  CampoTextoPersonalizado(
-                                    exemplo: AppTextos.moedaValor,
-                                    titulo: AppTextos.valor,
-                                    teclado: TextInputType.number,
-                                    controller: _valorController,
-                                    formatadores: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      CentavosInputFormatter(moeda: true),
-                                    ],
-                                  ),
-                                  SizedBox(height: 20),
-                                ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: RodapeBotaoRetangular(           
+            titulo: AppTextos.adicionar,
+            funcaoBotao: () {
+              _limparControllers();
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    constraints: BoxConstraints.expand(width: double.infinity, height: 400),
+                    backgroundColor: AppCores.cinzaClaro,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  AppTextos.novoImprevisto,
+                                  style: TextStyle(fontSize: AppTipografias.h4),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  icon: SvgPicture.asset(AppIcones.cancelar, width: 40),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CampoTextoPersonalizado(
+                                      titulo: AppTextos.item,
+                                      controller: _itemController,
+                                    ),
+                                    SizedBox(height: 20),
+                                    CampoTextoPersonalizado(
+                                      exemplo: AppTextos.moedaValor,
+                                      titulo: AppTextos.valor,
+                                      teclado: TextInputType.number,
+                                      controller: _valorController,
+                                      formatadores: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        CentavosInputFormatter(moeda: true),
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          ValueListenableBuilder(
-                            valueListenable: _itemController,
-                            builder: (context, itemValue, _) {
-                              return ValueListenableBuilder(
-                                valueListenable: _valorController,
-                                builder: (context, valorValue, _) {
-                                  final bool isFormValid =
-                                      itemValue.text.isNotEmpty && valorValue.text.isNotEmpty;
-
-                                  return BotaoRetangular(
-                                    texto: AppTextos.adicionar,
-                                    aoPressionar: isFormValid
-                                        ? () {
-                                            if (_formKey.currentState!.validate()) {
-                                              final String nome = _itemController.text;
-                                              final double valor =
-                                                  UtilBrasilFields.converterMoedaParaDouble(
-                                                    _valorController.text,
-                                                  );
-
-                                              setState(() {
-                                                _itens.add({'nome': nome, 'valor': valor});
-                                              });
-                                              Navigator.of(context).pop();
+                            ValueListenableBuilder(
+                              valueListenable: _itemController,
+                              builder: (context, itemValue, _) {
+                                return ValueListenableBuilder(
+                                  valueListenable: _valorController,
+                                  builder: (context, valorValue, _) {
+                                    final bool isFormValid =
+                                        itemValue.text.isNotEmpty && valorValue.text.isNotEmpty;
+          
+                                    return BotaoRetangular(
+                                      texto: AppTextos.adicionar,
+                                      aoPressionar: isFormValid
+                                          ? () {
+                                              if (_formKey.currentState!.validate()) {
+                                                final String nome = _itemController.text;
+                                                final double valor =
+                                                    UtilBrasilFields.converterMoedaParaDouble(
+                                                      _valorController.text,
+                                                    );
+          
+                                                setState(() {
+                                                  _itens.add({'nome': nome, 'valor': valor});
+                                                });
+                                                Navigator.of(context).pop();
+                                              }
                                             }
-                                          }
-                                        : null,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          SizedBox(height: 30),
-                        ],
+                                          : null,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            SizedBox(height: 30),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            );
-          },
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

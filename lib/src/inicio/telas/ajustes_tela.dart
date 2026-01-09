@@ -56,7 +56,7 @@ class _AjustesTelaState extends State<AjustesTela> {
                 if (value) {
                   await prefs.setBool('efeitoSonoro', true);
                   setState(() => efeitoSonoro = true);
-                  await AppSons.tocarSalvar();
+                  await AppSons.tocarAtivar();
                 } else {
                   await AppSons.tocarExcluir();
                   await prefs.setBool('efeitoSonoro', false);
@@ -74,7 +74,7 @@ class _AjustesTelaState extends State<AjustesTela> {
               value: introducao,
               onChanged: (value) async {
                 if (value) {
-                  await AppSons.tocarSalvar();
+                  await AppSons.tocarAtivar();
                 } else {
                   await AppSons.tocarExcluir();
                 }
@@ -88,6 +88,7 @@ class _AjustesTelaState extends State<AjustesTela> {
           ),
           SizedBox(height: 40),
           CupertinoListTile(
+            //TODO: ativar notificacoes localmente
             padding: EdgeInsets.symmetric(horizontal: 20),
             leading: SvgPicture.asset(AppIcones.notificacoes, width: 40),
             title: Text(AppTextos.notificacoes, style: TextStyle(fontSize: AppTipografias.h4)),
@@ -95,7 +96,7 @@ class _AjustesTelaState extends State<AjustesTela> {
               value: notificacoes,
               onChanged: (value) async {
                 if (value) {
-                  await AppSons.tocarSalvar();
+                  await AppSons.tocarAtivar();
                 } else {
                   await AppSons.tocarExcluir();
                 }
@@ -114,6 +115,7 @@ class _AjustesTelaState extends State<AjustesTela> {
               borderRadius: BorderRadius.circular(5),
               elevation: 3,
               child: ListTile(
+                //TODO: Ajustar hora para receber notificacoes
                 title: Text(AppTextos.horaPadrao, style: TextStyle(fontSize: AppTipografias.h6)),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),

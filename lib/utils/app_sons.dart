@@ -36,8 +36,7 @@ class AppSons {
         await _audioPlayer.setVolume(1.0);
         await _audioPlayer.setReleaseMode(ReleaseMode.stop);
         await _audioPlayer.play(AssetSource('audio/splash.wav'));
-      } else {
-      }
+      } else {}
     } catch (e) {
       debugPrint('Erro ao tocar som: $e');
     }
@@ -73,13 +72,51 @@ class AppSons {
     }
   }
 
-  static Future<void> tocarPedidoCriado() async {
+  static Future<void> tocarAtivar() async {
     try {
       if (await _podeTocar()) {
-        await _audioPlayer.play(AssetSource('audio/pedido-criado.wav'));
+        await _audioPlayer.play(AssetSource('audio/ativar.wav'));
       }
     } catch (e) {
       debugPrint('Erro ao tocar som: $e');
+    }
+  }
+
+  static Future<void> tocarPedidoCriado1() async {
+    try {
+      if (await _podeTocar()) {
+        await _audioPlayer.play(AssetSource('audio/pedido-criado-1.wav'));
+      }
+    } catch (e) {
+      debugPrint('Erro ao tocar som: $e');
+    }
+  }
+
+  static Future<void> tocarPedidoCriado2() async {
+    try {
+      if (await _podeTocar()) {
+        await _audioPlayer.play(AssetSource('audio/pedido-criado-2.wav'));
+      }
+    } catch (e) {
+      debugPrint('Erro ao tocar som: $e');
+    }
+  }
+
+  static Future<void> tocarPedidoCriado3() async {
+    try {
+      if (await _podeTocar()) {
+        await _audioPlayer.play(AssetSource('audio/pedido-criado-3.wav'));
+      }
+    } catch (e) {
+      debugPrint('Erro ao tocar som: $e');
+    }
+  }
+
+  static Future<void> pararSom() async {
+    try {
+      await _audioPlayer.stop();
+    } catch (e) {
+      debugPrint('Erro ao parar som: $e');
     }
   }
 }
