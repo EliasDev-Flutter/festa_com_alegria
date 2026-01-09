@@ -37,6 +37,8 @@ abstract class AppTextos {
   static const String instagram = 'Instagram';
   static const String selecionarFavoritos = 'Selecionar favoritos';
   static const String semNotificacao = 'Sem notificação!';
+  static const String semPendencias = 'Sem pendências!';
+  static const String semFinalizados = 'Sem finalizados!';
   static const String naoPossuiPedidos = 'Ainda não possui pedidos!';
   static const String filtrandoPor = 'Filtrando por: ';
   static const String pedidoParte1 = '1/2';

@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:festa_com_alegria/src/pedidos/models/pedido_model.dart';
 import 'package:festa_com_alegria/utils/app_cores.dart';
 import 'package:festa_com_alegria/utils/app_imagens.dart';
 import 'package:festa_com_alegria/utils/app_sons.dart';
@@ -10,6 +12,7 @@ import 'package:festa_com_alegria/widgets%20globais/botao_retangular.dart';
 import 'package:festa_com_alegria/widgets%20globais/campo_texto_personalizado.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CriarPedidoWidget extends StatefulWidget {
   const CriarPedidoWidget({super.key, this.aoFinalizar});
@@ -22,6 +25,7 @@ class CriarPedidoWidget extends StatefulWidget {
 
 class _CriarPedidoWidgetState extends State<CriarPedidoWidget> {
   int _etapa = 1;
+  bool _pedidoRealizado = false;
   bool _kitFesta = false;
   bool _kitPapelaria = false;
 
@@ -123,8 +127,38 @@ class _CriarPedidoWidgetState extends State<CriarPedidoWidget> {
     }
   }
 
+  Future<void> _salvarPedido() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? pedidosString = prefs.getString('pedidos');
+    List<dynamic> pedidosList = pedidosString != null ? json.decode(pedidosString) : [];
+
+    final pedido = PedidoModel(
+      id: UniqueKey().toString(),
+      nomeCliente: _nomeClienteController.text,
+      tema: _temaController.text,
+      dataEntrega: _dataEntregaController.text,
+      tipoPedido: _kitFesta ? AppTextos.kitFesta : AppTextos.kitPapelaria,
+      formaPagamento: _pagamentoPix
+          ? 'Pix'
+          : _pagamentoDebito
+          ? 'Debito'
+          : _pagamentoCredito
+          ? 'Credito'
+          : '50%',
+      descricao: _descricaoController.text,
+      valorTotal: _valorTotalController.text,
+    );
+
+    pedidosList.add(pedido.toMap());
+    await prefs.setString('pedidos', json.encode(pedidosList));
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_pedidoRealizado) {
+      return const _DialogoPedidoCadastrado();
+    }
+
     return Dialog(
       constraints: const BoxConstraints(maxHeight: 500),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -306,12 +340,11 @@ class _CriarPedidoWidgetState extends State<CriarPedidoWidget> {
                       ? (_podeAvancar ? _avancar : null)
                       : (_podeFinalizar
                             ? () async {
-                                Navigator.of(context).pop();
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => const _DialogoPedidoCadastrado(),
-                                );
+                                await _salvarPedido();
                                 widget.aoFinalizar?.call();
+                                setState(() {
+                                  _pedidoRealizado = true;
+                                });
                               }
                             : null),
                 ),

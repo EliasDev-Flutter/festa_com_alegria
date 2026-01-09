@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:festa_com_alegria/src/pedidos/models/pedido_model.dart';
 import 'package:festa_com_alegria/src/pedidos/widgets/criar_pedido_widget.dart';
 import 'package:festa_com_alegria/src/pedidos/widgets/pedido_personalizado_widget.dart';
 import 'package:festa_com_alegria/utils/app_cores.dart';
@@ -9,6 +12,7 @@ import 'package:festa_com_alegria/widgets%20globais/corpo_menu.dart';
 import 'package:festa_com_alegria/widgets%20globais/topo_inicio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PedidosTela extends StatefulWidget {
   const PedidosTela({super.key});
@@ -20,6 +24,37 @@ class PedidosTela extends StatefulWidget {
 class _PedidosTelaState extends State<PedidosTela> {
   bool semPedidos = true;
   int indiceAtual = 0;
+  List<PedidoModel> _pedidos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarPedidos();
+  }
+
+  Future<void> _carregarPedidos() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Carregar filtro salvo
+    final int? filtroSalvo = prefs.getInt('filtro_pedidos');
+    if (filtroSalvo != null) {
+      indiceAtual = filtroSalvo;
+    }
+
+    final String? pedidosString = prefs.getString('pedidos');
+    if (pedidosString != null) {
+      final List<dynamic> lista = json.decode(pedidosString);
+      setState(() {
+        _pedidos = lista.map((e) => PedidoModel.fromMap(e)).toList().reversed.toList();
+        semPedidos = _pedidos.isEmpty;
+      });
+    } else {
+      setState(() {
+        _pedidos = [];
+        semPedidos = true;
+      });
+    }
+  }
 
   String tiposDeFiltros(int indice) {
     switch (indice) {
@@ -34,6 +69,39 @@ class _PedidosTelaState extends State<PedidosTela> {
     }
   }
 
+  bool _isConcluido(String dataEntrega) {
+    try {
+      final parts = dataEntrega.split('/');
+      if (parts.length == 3) {
+        final day = int.parse(parts[0]);
+        final month = int.parse(parts[1]);
+        final year = int.parse(parts[2]);
+        int fullYear = year;
+        if (year < 100) fullYear = 2000 + year;
+
+        final entrega = DateTime(fullYear, month, day);
+        final hoje = DateTime.now();
+        final hojeZero = DateTime(hoje.year, hoje.month, hoje.day);
+
+        return hojeZero.compareTo(entrega) >= 0;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
+  }
+
+  List<PedidoModel> get _pedidosFiltrados {
+    if (indiceAtual == 0) return _pedidos;
+    if (indiceAtual == 1) {
+      return _pedidos.where((p) => !_isConcluido(p.dataEntrega)).toList();
+    }
+    if (indiceAtual == 2) {
+      return _pedidos.where((p) => _isConcluido(p.dataEntrega)).toList();
+    }
+    return _pedidos;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +109,11 @@ class _PedidosTelaState extends State<PedidosTela> {
       appBar: TopoInicio(),
       body: semPedidos
           ? Column(
-              mainAxisAlignment: .center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  textAlign: .center,
                   AppTextos.naoPossuiPedidos,
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: AppTipografias.h1),
                 ),
                 SizedBox(height: 20),
@@ -65,49 +133,50 @@ class _PedidosTelaState extends State<PedidosTela> {
                         style: TextStyle(fontSize: AppTipografias.h3),
                       ),
                       Spacer(),
-                      GestureDetector(
-                        onTap: () {
+                      PopupMenuButton<int>(
+                        child: SvgPicture.asset(AppIcones.filtro),
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem(value: 0, child: Text(tiposDeFiltros(0))),
+                            PopupMenuItem(value: 1, child: Text(tiposDeFiltros(1))),
+                            PopupMenuItem(value: 2, child: Text(tiposDeFiltros(2))),
+                          ];
+                        },
+                        onSelected: (value) async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setInt('filtro_pedidos', value);
                           setState(() {
-                            PopupMenuButton(
-                              itemBuilder: (context) {
-                                return [
-                                  PopupMenuItem(value: 0, child: Text(tiposDeFiltros(0))),
-                                  PopupMenuItem(value: 1, child: Text(tiposDeFiltros(1))),
-                                  PopupMenuItem(value: 2, child: Text(tiposDeFiltros(2))),
-                                ];
-                              },
-                              onSelected: (value) {
-                                setState(() {
-                                  indiceAtual = value;
-                                });
-                              },
-                            );
+                            indiceAtual = value;
                           });
                         },
-                        child: SvgPicture.asset(AppIcones.filtro),
                       ),
                     ],
                   ),
                   SizedBox(height: 20),
-                  SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: .infinity,
-                          child: ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
+                  Expanded(
+                    child: _pedidosFiltrados.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  indiceAtual == 1
+                                      ? AppTextos.semPendencias
+                                      : AppTextos.semFinalizados,
+                                  style: TextStyle(fontSize: AppTipografias.h2),
+                                ),
+                                const SizedBox(height: 20),
+                                Image.asset(AppImagens.semPendencias),
+                              ],
+                            ),
+                          )
+                        : ListView.separated(
+                            separatorBuilder: (context, index) => SizedBox(height: 15),
+                            itemCount: _pedidosFiltrados.length,
                             itemBuilder: (context, index) {
-                              return PedidoPersonalizadoWidget();
+                              return PedidoPersonalizadoWidget(pedido: _pedidosFiltrados[index]);
                             },
-                            separatorBuilder: (context, index) => SizedBox(height: 10),
-                            itemCount: 5,
                           ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
@@ -130,9 +199,7 @@ class _PedidosTelaState extends State<PedidosTela> {
               context: context,
               builder: (context) => CriarPedidoWidget(
                 aoFinalizar: () {
-                  setState(() {
-                    semPedidos = false;
-                  });
+                  _carregarPedidos();
                 },
               ),
             );

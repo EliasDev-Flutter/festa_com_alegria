@@ -37,4 +37,10 @@ abstract class AppIcones {
   static const String limparNotificacoes = 'assets/icons/limpar-notificacoes.svg';
   static const String criarPedido = 'assets/icons/criar-pedido.svg';
   static const String filtro = 'assets/icons/filtro.svg';
+  static const String concluido = 'assets/icons/concluido.svg';
+  static const String ausente = 'assets/icons/ausente.svg';
+  static const String metade = 'assets/icons/metade.svg';
+  static const String credito = 'assets/icons/credito.svg';
+  static const String debito = 'assets/icons/debito.svg';
+  static const String pix = 'assets/icons/pix.svg';
 }

@@ -12,4 +12,5 @@ abstract class AppImagens {
   static const String semNotificacoes = 'assets/images/sem_notificacoes.png';
   static const String alerta = 'assets/images/alerta.png';
   static const String pedidoCadastrado = 'assets/images/pedido-cadastrado.png';
+  static const String semPendencias = 'assets/images/sem_pendencias.png';
 }
